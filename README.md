@@ -124,13 +124,30 @@ Orderable items (`Folder`, `Document`) also carry a `position` field.
 - Python 3.12 or newer
 - `pip` and `venv`
 
-### 1. Clone and enter the project
+### 1. Fork the repository
+Click **Fork** (top-right on GitHub) to create your own copy under your account.
+Contributors work from their fork, not the main repository.
+
+### 2. Clone your fork
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/<your-username>/spwrite_cloud.git
 cd spwrite_cloud
 ```
 
-### 2. Create and activate a virtual environment
+### 3. Add the upstream remote
+Point `upstream` at the original repo so you can pull in the latest changes:
+```bash
+git remote add upstream https://github.com/<original-owner>/spwrite_cloud.git
+git remote -v   # verify: origin = your fork, upstream = original
+```
+Keep your fork up to date later with:
+```bash
+git fetch upstream
+git checkout main
+git merge upstream/main
+```
+
+### 4. Create and activate a virtual environment
 ```bash
 python -m venv .venv
 
@@ -141,12 +158,12 @@ source .venv/bin/activate
 .venv\Scripts\Activate.ps1
 ```
 
-### 3. Install dependencies
+### 5. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment
+### 6. Configure environment
 Copy the example env file and adjust if needed:
 ```bash
 cp .example.env .env
@@ -159,7 +176,7 @@ API_BASE_URL="http://127.0.0.1:8000/api"
 > To use PostgreSQL/Supabase later, change `DATABASE_URL` only — no code changes.
 > Example: `postgresql+psycopg://USER:PASSWORD@HOST:5432/postgres`
 
-### 5. Run the app
+### 7. Run the app
 ```bash
 python -m uvicorn app:app --reload
 ```
@@ -170,7 +187,7 @@ Then open:
 The database tables are created automatically on startup via
 `create_db_and_tables()`.
 
-### 6. Run the tests
+### 8. Run the tests
 ```bash
 pytest -v
 ```

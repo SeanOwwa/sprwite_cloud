@@ -6,16 +6,22 @@ setup and architecture, see the [README](./README.md).
 
 ---
 
+> This project uses a **fork-based workflow**. You work on your own fork and
+> propose changes via pull requests to the original ("upstream") repository.
+> `origin` = your fork, `upstream` = the original repo. See the README's
+> *Getting Started* for forking and remote setup.
+
 ## TL;DR Workflow
 
 ```
-1. Pick an issue on the Project board  →  assign it to yourself
-2. Create a branch from main           →  feature/<issue#>-<short-slug>
-3. Code  (follow the architecture rules)
-4. Add/run tests                       →  pytest -v
-5. Commit  (Conventional Commits)      →  feat: ... (#issue)
-6. Push and open a PR against main     →  "Closes #<issue>"
-7. Address review  →  merge
+1. Pick an issue on the Project board      →  assign it to yourself
+2. Sync your fork with upstream            →  git fetch upstream && merge
+3. Create a branch from upstream/main      →  feature/<issue#>-<short-slug>
+4. Code  (follow the architecture rules)
+5. Add/run tests                           →  pytest -v
+6. Commit  (Conventional Commits)          →  feat: ... (#issue)
+7. Push to your fork and open a PR          →  "Closes #<issue>"
+8. Address review  →  maintainer merges
 ```
 
 ---
@@ -32,13 +38,19 @@ setup and architecture, see the [README](./README.md).
 
 ---
 
-## 2. Create a branch
+## 2. Sync your fork, then create a branch
 
-Always branch from an up-to-date `main`. Never commit directly to `main`.
+First make sure your fork's `main` matches upstream, then branch off it. Never
+commit directly to `main`.
 
 ```bash
+# sync your fork's main with the original repo
 git checkout main
-git pull origin main
+git fetch upstream
+git merge upstream/main
+git push origin main          # keep your fork's main up to date too
+
+# create your working branch
 git checkout -b feature/<issue#>-<short-slug>
 ```
 
@@ -118,16 +130,21 @@ Guidelines:
 
 ---
 
-## 6. Push and open a Pull Request
+## 6. Push to your fork and open a Pull Request
+
+Push the branch to **your fork** (`origin`):
 
 ```bash
 git push -u origin feature/<issue#>-<short-slug>
 ```
 
-Then open a PR **against `main`**. Using the GitHub CLI:
+Then open a PR from **your fork's branch → upstream `main`**. On GitHub, pushing
+usually shows a "Compare & pull request" prompt. Using the GitHub CLI:
 
 ```bash
-gh pr create --base main --title "feat: add create-folder endpoint" \
+gh pr create --repo <original-owner>/spwrite_cloud --base main \
+  --head <your-username>:feature/<issue#>-<short-slug> \
+  --title "feat: add create-folder endpoint" \
   --body "Closes #42"
 ```
 
@@ -149,23 +166,23 @@ gh pr create --base main --title "feat: add create-folder endpoint" \
 
 ## 7. Review & merge
 
-- Address review comments with **new commits** on the same branch (push again;
-  the PR updates automatically).
+- Address review comments with **new commits** on the same branch, then
+  `git push origin <branch>` — the PR updates automatically.
 - Keep the discussion on the PR/issue so it's traceable.
-- Once approved and green, the PR is merged into `main`. Delete the branch after
-  merge.
+- Once approved and green, a **maintainer** merges the PR into upstream `main`.
+  (As a contributor you don't merge your own PR into upstream.)
+- Delete your branch after merge.
 
 ---
 
 ## Keeping your branch current
 
-If `main` moves while you work, update your branch:
+If upstream `main` moves while you work, pull those changes into your branch:
 
 ```bash
-git checkout main
-git pull origin main
+git fetch upstream
 git checkout feature/<issue#>-<short-slug>
-git merge main        # resolve conflicts if any, then commit
+git merge upstream/main        # resolve conflicts if any, then commit
 ```
 
 ---
