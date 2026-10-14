@@ -1,0 +1,40 @@
+# ---- Secrets & local config ----
+.env
+
+# ---- Local database ----
+spwrite.db
+*.sqlite
+*.sqlite3
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.Python
+build/
+dist/
+
+# ---- Virtual environment ----
+.venv/
+venv/
+env/
+
+# ---- Testing / caches ----
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---- Editor / OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Personal (not project code) ----
+RESUME.md
+
+# ---- Staging doc for creating GitHub issues (not part of repo) ----
+GITHUB_ISSUES.md
